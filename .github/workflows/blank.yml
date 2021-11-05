@@ -37,7 +37,8 @@ jobs:
           git diff --relative=templates --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} |
           while read file
           do
-            cp ./templates/$file ./dist/$file;
+            echo $file
+            cp ./templates/$file ./dist/$file
           done
 
       - name: Upload to blob storage
