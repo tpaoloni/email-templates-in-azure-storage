@@ -33,6 +33,7 @@ jobs:
 
       - name: Prepare upload paths
         run: |
+          mkdir dist
           git diff --relative=templates --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} |
           while read file
           do
