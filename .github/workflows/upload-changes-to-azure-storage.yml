@@ -1,0 +1,11 @@
+name: Upload Changes to Azure Storage
+
+on:
+  push:
+    branches: [ main ]
+    
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        
