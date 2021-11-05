@@ -4,8 +4,29 @@ on:
   push:
     branches: [ main ]
     
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
         
+      - name: Copy updated templates to ./dist
+        run: |
+          mkdir dist
+          git diff --relative=templates --name-only ${{ github.event.before }} ${{ github.sha }} |
+          while read file
+          do
+            echo "Copying "./templates/$file" to "./dist/templates/$file"."
+            cp --parents ./templates/$file ./dist
+          done
+
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+              az storage blob upload-batch --account-name etchemailtemplates --connection-string "${{ github.AZURE_STORAGE_CONNECTION_STRING }}" -d 'templates' -s ./dist
