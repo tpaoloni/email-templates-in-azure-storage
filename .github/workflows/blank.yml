@@ -45,4 +45,4 @@ jobs:
         with:
           azcliversion: 2.0.72
           inlineScript: |
-              az storage blob upload-batch --account-name etchemailtemplates --auth-mode key -d '$templates' -s ./dist
+              az storage blob upload-batch --account-name etchemailtemplates --connection-string "${{ github.AZURE_STORAGE_CONNECTION_STRING }}" -d '$templates' -s ./dist
