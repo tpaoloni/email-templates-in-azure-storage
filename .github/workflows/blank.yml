@@ -34,10 +34,10 @@ jobs:
       - name: Prepare upload paths
         run: |
           git diff --relative=templates --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} |
-          while read file;
-          do;
-            cp $file ./dist/$file;
-          done;
+          while read file
+          do
+            cp ./templates/$file ./dist/$file;
+          done
 
       - name: Upload to blob storage
         uses: azure/CLI@v1
